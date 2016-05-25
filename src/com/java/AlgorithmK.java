@@ -13,8 +13,7 @@ import static java.lang.Integer.parseInt;
  */
 public class AlgorithmK {
 
-    public List Observations;
-    public List Points;
+    public List<Point> Observations = new ArrayList<>();
     public List Clusters;
     private int NUM_OF_POINTS;
     private int NUM_OF_CLUSTERS;
@@ -24,14 +23,16 @@ public class AlgorithmK {
     Client client;
 
     public AlgorithmK() {
-        Points = new ArrayList<>();
-        Clusters =  new ArrayList<>();
+        Clusters = new ArrayList<>();
     }
 
 
-    public static void main(String[] args) throws Throwable{
+    public static void main(String[] args) throws Throwable {
         AlgorithmK kmean = new AlgorithmK();
-        System.out.println(kmean.fetchData());
+        //Settings.getInstance();
+        kmean.fetchData();
+        kmean.groupData();
+
     }
 
     // Fetches the data from the WineData2.txt
@@ -44,18 +45,18 @@ public class AlgorithmK {
         client = new Client();
         URL path = ClassLoader.getSystemResource("WineData2");
         file = new File(path.toURI());
-        BufferedReader br =  new BufferedReader(new FileReader(file));
-        String line ="";
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String line = "";
         String splitregex = ";";
         String splitregex2 = ",";
         while ((line = br.readLine()) != null) {
             StringTokenizer stringTokenizer = new StringTokenizer(line, splitregex);
-            while(stringTokenizer.hasMoreElements()) {
+            while (stringTokenizer.hasMoreElements()) {
                 v.add(stringTokenizer.nextToken());
             }
         }
         // sets the mapValues
-        for(int i=0; i < v.size(); i++) {
+        for (int i = 0; i < v.size(); i++) {
             client.setOfferID(i);
             client.obs.put(client.getOfferID(), v.get(i));
         }
@@ -66,8 +67,33 @@ public class AlgorithmK {
     }
 
     public void groupData() {
+        int temp2 = 0;
+        Map<Integer, String> allData = client.getObs();
+        for (int z = 0; z < allData.size(); z++) {
+            String data = allData.get(z);
+            String[] temp = data.split(",");
+            int x = 0;
+            int y = 0;
+            for (String s : temp) {
+                x++;
+                temp2 = Integer.parseInt(s);
+                Point point = new Point();
+                if (temp2 > 0) {
+                    y++;
+                    point.setLocation(z, x);
+                }
+                if (y > 0) {
+                    Observations.add(point);
+                    y--;
+                }
 
+            }
+        }
+        Observations.forEach((K) -> {
+            System.out.println(K);
+        });
     }
+
 
     public void execute() {
 
@@ -75,7 +101,7 @@ public class AlgorithmK {
     }
 
     public double EuclideanDistance(double X_VALUE_COORDINATE, double Y_VALUE_COORDINATE) {
-        double distance = Math.pow(X_VALUE_COORDINATE - Y_VALUE_COORDINATE,2);
+        double distance = Math.pow(X_VALUE_COORDINATE - Y_VALUE_COORDINATE, 2);
         return Math.sqrt(distance);
     }
 }

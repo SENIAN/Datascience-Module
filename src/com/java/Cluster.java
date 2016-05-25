@@ -6,14 +6,13 @@ import java.util.List;
  */
 public class Cluster {
 
-    public Points center;
     public List points;
     public int id;
 
     public Cluster(int id) {
         this.id = id;
         this.points = new ArrayList();
-        this.center = null;
+
 
     }
 
