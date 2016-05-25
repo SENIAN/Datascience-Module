@@ -31,7 +31,7 @@ public class AlgorithmK {
 
     public static void main(String[] args) throws Throwable{
         AlgorithmK kmean = new AlgorithmK();
-        kmean.fetchData();
+        System.out.println(kmean.fetchData());
     }
 
     // Fetches the data from the WineData2.txt
@@ -40,12 +40,14 @@ public class AlgorithmK {
 
     public Map fetchData() throws Throwable {
         Vector<String> v = new Vector();
+        Vector<String> v2 = new Vector<>();
         client = new Client();
         URL path = ClassLoader.getSystemResource("WineData2");
         file = new File(path.toURI());
         BufferedReader br =  new BufferedReader(new FileReader(file));
         String line ="";
         String splitregex = ";";
+        String splitregex2 = ",";
         while ((line = br.readLine()) != null) {
             StringTokenizer stringTokenizer = new StringTokenizer(line, splitregex);
             while(stringTokenizer.hasMoreElements()) {
