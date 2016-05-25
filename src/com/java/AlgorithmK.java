@@ -41,8 +41,7 @@ public class AlgorithmK {
 
     public Map fetchData() throws Throwable {
         Vector<String> v = new Vector();
-        Vector<String> v2 = new Vector<>();
-        client = new Client();
+        client = client.getInstance();
         URL path = ClassLoader.getSystemResource("WineData2");
         file = new File(path.toURI());
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -67,16 +66,27 @@ public class AlgorithmK {
     }
 
     public void groupData() {
+        // Eerst temp int variable voor alle variablen in de hashmap
         int temp2 = 0;
+        // Ophalen van de data die eerder via fetchData is gemaakt.
         Map<Integer, String> allData = client.getObs();
+        // De AllData hashmap is 32 values groot omdat er in totaal 32 wijnen zijn 0-31
+        //
         for (int z = 0; z < allData.size(); z++) {
             String data = allData.get(z);
             String[] temp = data.split(",");
+            // Na het maken van de points van iedere wijn moeten de values x en y weer op 0 staan.
+            // Data zou opzich nog gewoon kloppen maar het zou een gigantische chart plot genereren with no use.
             int x = 0;
             int y = 0;
+            // Extracten van de String data uit de array temp. Om vervolgens hier integers van te maken en te stoppen
+            // in de int variable temp2;
             for (String s : temp) {
                 x++;
                 temp2 = Integer.parseInt(s);
+                // voor elke string char in de string array wordt er een nieuwe point gemaakt.
+                // De reden waarom deze hier staat en niet in de if statement temp2 > 0 is omdat deze publiekelijk beschikbaar moet zijn
+                // voor de Observations ArrayList bij Y.
                 Point point = new Point();
                 if (temp2 > 0) {
                     y++;
@@ -86,9 +96,9 @@ public class AlgorithmK {
                     Observations.add(point);
                     y--;
                 }
-
             }
         }
+        // Uitprinten van de resultaten van observations ArrayList.
         Observations.forEach((K) -> {
             System.out.println(K);
         });
