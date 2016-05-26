@@ -13,7 +13,7 @@ import static java.lang.Integer.parseInt;
  */
 public class AlgorithmK {
 
-    public List<Point> Observations = new ArrayList<>();
+    public static List<Point> Observations = new ArrayList<>();
     public List Clusters;
     private int NUM_OF_POINTS;
     private int NUM_OF_CLUSTERS;
@@ -22,18 +22,20 @@ public class AlgorithmK {
     File file;
     Client client;
 
+
+    private static AlgorithmK instance = null;
+
+    public static AlgorithmK getInstance() {
+        if(instance==null) {
+            instance = new AlgorithmK();
+        }
+        return instance;
+    }
+
     public AlgorithmK() {
         Clusters = new ArrayList<>();
     }
 
-
-    public static void main(String[] args) throws Throwable {
-        AlgorithmK kmean = new AlgorithmK();
-        //Settings.getInstance();
-        kmean.fetchData();
-        kmean.groupData();
-
-    }
 
     // Fetches the data from the WineData2.txt
     // I've made a txt so that its delimited at the end of the line by a ;
@@ -100,7 +102,8 @@ public class AlgorithmK {
         }
         // Uitprinten van de resultaten van observations ArrayList.
         Observations.forEach((K) -> {
-            System.out.println(K);
+        //    System.out.println(K);
+
         });
     }
 
