@@ -1,11 +1,72 @@
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import lombok.Data;
+
+import java.util.*;
 
 /**
  * Created by Mohammed on 6/1/2016.
  */
+
+@Data
+public class GeneticAlgorithm {
+
+    List<Individual> newPopulation = new ArrayList<>();
+    double CrossoverRate;
+    double MutationRate;
+    boolean Elitism;
+    int populationSize;
+    int iterations;
+    Individual individual = new Individual();
+    // repeat the process for the second individual
+
+
+    public void createInitialIndividual(String InitChronosomeA) {
+        byte[] b = InitChronosomeA.getBytes();
+        StringBuilder InitialIndividual = new StringBuilder();
+        for (byte byteString : b) {
+            int start = byteString;
+            for (int i = 0; i <= 4; i++) {
+                InitialIndividual.append((start & 128) == 0 ? 0 : 1);
+                start <<= 1;
+            }
+            individual.setInitChronosomeValue(InitialIndividual.toString());
+
+        }
+
+        newPopulation.add(individual);
+
+    }
+
+    public Individual computeFitness() {
+        System.out.println(newPopulation.get(3));
+
+        // compute fitness of each individual in the population
+        // apply elitism
+
+        return Individual.getInstance();
+    }
+
+
+    public Individual InitializeCurrentIndividuals() {
+        // initialize the selection function given the current individuals and their fitnesses
+
+        // create the individuals of the next generation
+
+        return Individual.getInstance();
+    }
+
+    public Individual selectTwoParents() {
+        // select two parents
+        // do a crossover between the selected parents to generate two children (with a certain probability,
+        // crossover does not happen and the two parents are kept unchanged)
+
+        // save the two children in the next population (after mutation)
+
+        return Individual.getInstance();
+    }
+
+
+}
+
 /*
 ALGORITHM – MAIN LOOP
 The main loop of the genetic algorithm is explained in the slides of the course.
@@ -25,55 +86,3 @@ yourself
 
 
  */
-public class GeneticAlgorithm <Individual> {
-
-
-    List<Individual> newPopulation;
-    Individual individual;
-    double CrossoverRate;
-    double MutationRate;
-    boolean Elitism;
-    int populationSize;
-    int iterations;
-
-    // repeat the process for the second individual
-
-    public List<Individual> runAlgorithm() {
-        newPopulation =  new ArrayList<Individual>();
-        return newPopulation;
-    }
-
-    public Individual createInitialIndividual() {
-            Random random = new Random();
-        return individual;
-    }
-
-    public Individual computeFitness() {
-
-        // compute fitness of each individual in the population
-        // apply elitism
-
-        return individual;
-    }
-
-
-    public Individual InitializeCurrentIndividuals() {
-        // initialize the selection function given the current individuals and their fitnesses
-
-        // create the individuals of the next generation
-
-        return individual;
-    }
-
-    public Individual selectTwoParents() {
-        // select two parents
-        // do a crossover between the selected parents to generate two children (with a certain probability,
-        // crossover does not happen and the two parents are kept unchanged)
-
-        // save the two children in the next population (after mutation)
-
-        return individual;
-    }
-
-
-}

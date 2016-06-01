@@ -1,5 +1,6 @@
 import com.sun.xml.internal.bind.v2.model.core.ID;
 import lombok.Data;
+import sun.misc.BASE64Encoder;
 
 /**
  * Created by Mohammed on 6/1/2016.
@@ -24,6 +25,8 @@ End
 @Data
 public class Individual {
 
+
+    public String InitChronosomeValue;
     private static Individual instance = null;
 
 
@@ -34,6 +37,5 @@ public class Individual {
         }
         return instance;
     }
-
 
 }

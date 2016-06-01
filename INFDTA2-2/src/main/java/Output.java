@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  * Created by Mohammed on 6/1/2016.
  */
@@ -16,6 +18,7 @@ At the end of the specified number of iterations, you should print out the follo
 public class Output {
 
     public static void main(String[] args) {
-
+        Settings.getInstance().createFirstPopulationSetting(100);
     }
+
 }
