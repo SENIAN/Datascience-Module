@@ -7,6 +7,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src/com/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/com/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/com/test resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/INFDTA2-1/src/com/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/INFDTA2-1/src/com/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/INFDTA2-2/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/INFDTA2-2/src/main/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

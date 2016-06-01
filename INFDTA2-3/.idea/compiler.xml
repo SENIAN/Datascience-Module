@@ -14,7 +14,7 @@
       <entry name="!?*.aj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true">
+      <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
       <profile default="false" name="Maven default annotation processors profile" enabled="true">
@@ -22,17 +22,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="Assignment1" />
-        <module name="Assignment1 (1) (INFDTA2-1)" />
-        <module name="Assignment1 (2) (INFDTA2-1-K-means)" />
-        <module name="Assignment2" />
-        <module name="Assignment3" />
+        <module name="INFDTA2-3" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Assignment1" target="1.8" />
-      <module name="Assignment2" target="1.8" />
-      <module name="Assignment3" target="1.8" />
+      <module name="INFDTA2-3" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
