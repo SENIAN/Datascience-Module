@@ -1,3 +1,6 @@
+import com.sun.xml.internal.bind.v2.model.core.ID;
+import lombok.Data;
+
 /**
  * Created by Mohammed on 6/1/2016.
  */
@@ -18,10 +21,19 @@ Beginning > Initial population > Evaluation > Selection  > Crossover > Mutation 
 End
  */
 
+@Data
+public class Individual {
 
-public class Client {
-    
+    private static Individual instance = null;
 
+
+    public static Individual getInstance() {
+        if(instance==null) {
+            instance = new Individual();
+
+        }
+        return instance;
+    }
 
 
 }

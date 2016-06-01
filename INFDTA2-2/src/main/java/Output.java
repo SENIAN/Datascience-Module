@@ -14,4 +14,8 @@ At the end of the specified number of iterations, you should print out the follo
 
  */
 public class Output {
+
+    public static void main(String[] args) {
+
+    }
 }

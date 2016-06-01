@@ -1,3 +1,8 @@
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
  * Created by Mohammed on 6/1/2016.
  */
@@ -20,5 +25,55 @@ yourself
 
 
  */
-public class GeneticAlgorithm {
+public class GeneticAlgorithm <Individual> {
+
+
+    List<Individual> newPopulation;
+    Individual individual;
+    double CrossoverRate;
+    double MutationRate;
+    boolean Elitism;
+    int populationSize;
+    int iterations;
+
+    // repeat the process for the second individual
+
+    public List<Individual> runAlgorithm() {
+        newPopulation =  new ArrayList<Individual>();
+        return newPopulation;
+    }
+
+    public Individual createInitialIndividual() {
+            Random random = new Random();
+        return individual;
+    }
+
+    public Individual computeFitness() {
+
+        // compute fitness of each individual in the population
+        // apply elitism
+
+        return individual;
+    }
+
+
+    public Individual InitializeCurrentIndividuals() {
+        // initialize the selection function given the current individuals and their fitnesses
+
+        // create the individuals of the next generation
+
+        return individual;
+    }
+
+    public Individual selectTwoParents() {
+        // select two parents
+        // do a crossover between the selected parents to generate two children (with a certain probability,
+        // crossover does not happen and the two parents are kept unchanged)
+
+        // save the two children in the next population (after mutation)
+
+        return individual;
+    }
+
+
 }
