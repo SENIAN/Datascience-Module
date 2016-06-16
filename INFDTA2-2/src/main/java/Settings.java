@@ -25,9 +25,8 @@ public class Settings {
         Random r = new Random();
         for (int i = 0; i < initialPopulationValue; i++) {
             int s = r.nextInt(maximumIntegerValue);
-            individualList = (geneticAlgorithm.createInitialIndividual(s));
+            geneticAlgorithm.createInitialIndividual(s);
         }
-        geneticAlgorithm.computeFitness(individualList);
     }
 
 

@@ -20,22 +20,21 @@ public class GeneticAlgorithm {
     // repeat the process for the second individual
 
 
-    public List<String> createInitialIndividual(int InitChronosomeA) {
+    public void createInitialIndividual(int InitChronosomeA) {
         individual.setInitChronosomeValue(String.format("%5s", Integer.toBinaryString(InitChronosomeA)).replace(' ', '0'));
-        newPopulation.add(individual.getInitChronosomeValue());
-        return newPopulation;
+        int enc = Integer.parseInt(individual.getInitChronosomeValue(), 2);
+        computeFitness(enc);
     }
 
-    public Individual computeFitness(List<String> individuals) {
-        System.out.println(individuals.size());
-        for(int i=0; i < individuals.size(); i++) {
-            System.out.println(individuals.get(i) + " index" + i );
-        }
+    public double computeFitness(int x) {
+        double fitness = 0;
+        fitness = (-Math.pow(x, 2.00)) + (7 * x);
 
         // compute fitness of each individual in the population
+        System.out.println(fitness);
         // apply elitism
 
-        return Individual.getInstance();
+        return fitness;
     }
 
 
