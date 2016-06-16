@@ -19,25 +19,16 @@ public class GeneticAlgorithm {
     // repeat the process for the second individual
 
 
-    public void createInitialIndividual(String InitChronosomeA) {
-        byte[] b = InitChronosomeA.getBytes();
-        StringBuilder InitialIndividual = new StringBuilder();
-        for (byte byteString : b) {
-            int start = byteString;
-            for (int i = 0; i <= 4; i++) {
-                InitialIndividual.append((start & 128) == 0 ? 0 : 1);
-                start <<= 1;
-            }
-            individual.setInitChronosomeValue(InitialIndividual.toString());
-
-        }
-
+    public List<Individual> createInitialIndividual(int InitChronosomeA) {
+        String x = String.format("%5s", Integer.toBinaryString(InitChronosomeA).replace(' ', '0'));
+        individual.setInitChronosomeValue(x);
         newPopulation.add(individual);
-
+        return newPopulation;
     }
 
-    public Individual computeFitness() {
-        System.out.println(newPopulation.get(3));
+    public Individual computeFitness(List<Individual> individuals) {
+
+        System.out.println(individuals.get(0) + "Individual value");
 
         // compute fitness of each individual in the population
         // apply elitism
