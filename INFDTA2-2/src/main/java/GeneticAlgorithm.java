@@ -1,3 +1,4 @@
+import com.sun.org.apache.xml.internal.security.Init;
 import lombok.Data;
 
 import java.util.*;
@@ -9,7 +10,7 @@ import java.util.*;
 @Data
 public class GeneticAlgorithm {
 
-    List<Individual> newPopulation = new ArrayList<>();
+    List<String> newPopulation = new ArrayList<>();
     double CrossoverRate;
     double MutationRate;
     boolean Elitism;
@@ -19,16 +20,17 @@ public class GeneticAlgorithm {
     // repeat the process for the second individual
 
 
-    public List<Individual> createInitialIndividual(int InitChronosomeA) {
-        String x = String.format("%5s", Integer.toBinaryString(InitChronosomeA).replace(' ', '0'));
-        individual.setInitChronosomeValue(x);
-        newPopulation.add(individual);
+    public List<String> createInitialIndividual(int InitChronosomeA) {
+        individual.setInitChronosomeValue(String.format("%5s", Integer.toBinaryString(InitChronosomeA)).replace(' ', '0'));
+        newPopulation.add(individual.getInitChronosomeValue());
         return newPopulation;
     }
 
-    public Individual computeFitness(List<Individual> individuals) {
-
-        System.out.println(individuals.get(0) + "Individual value");
+    public Individual computeFitness(List<String> individuals) {
+        System.out.println(individuals.size());
+        for(int i=0; i < individuals.size(); i++) {
+            System.out.println(individuals.get(i) + " index" + i );
+        }
 
         // compute fitness of each individual in the population
         // apply elitism

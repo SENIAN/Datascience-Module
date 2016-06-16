@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -8,6 +9,7 @@ import java.util.Random;
 
 public class Settings {
 
+    List<String> individualList = new ArrayList<>();
     public static Settings instance = null;
 
             public static Settings getInstance() {
@@ -23,9 +25,9 @@ public class Settings {
         Random r = new Random();
         for (int i = 0; i < initialPopulationValue; i++) {
             int s = r.nextInt(maximumIntegerValue);
-            List<Individual> individualList = geneticAlgorithm.createInitialIndividual(s);
-            geneticAlgorithm.computeFitness(individualList);
+            individualList = (geneticAlgorithm.createInitialIndividual(s));
         }
+        geneticAlgorithm.computeFitness(individualList);
     }
 
 
