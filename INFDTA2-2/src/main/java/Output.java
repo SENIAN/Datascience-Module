@@ -19,6 +19,9 @@ public class Output {
 
     public static void main(String[] args) {
         Settings.getInstance().createFirstPopulationSetting(100);
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+
+
     }
 
 }

@@ -2,6 +2,7 @@ import com.sun.org.apache.xml.internal.security.Init;
 import lombok.Data;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by Mohammed on 6/1/2016.
@@ -10,7 +11,7 @@ import java.util.*;
 @Data
 public class GeneticAlgorithm {
 
-    List<String> newPopulation = new ArrayList<>();
+    List<Double> newPopulationFitness = new ArrayList<>();
     double CrossoverRate;
     double MutationRate;
     boolean Elitism;
@@ -26,17 +27,44 @@ public class GeneticAlgorithm {
         computeFitness(enc);
     }
 
-    public double computeFitness(int x) {
-        double fitness = 0;
-        fitness = (-Math.pow(x, 2.00)) + (7 * x);
+    public List<Double> applyElitism(List<Double> nextPopulation) {
+        Comparator<Double> comparator = (Double a, Double b) -> {
+            return b.compareTo(a);
+        };
+        Collections.sort(nextPopulation, comparator);
+        nextPopulation.forEach(n -> System.out.println(n));
+        Selection(nextPopulation);
 
-        // compute fitness of each individual in the population
-        System.out.println(fitness);
-        // apply elitism
-
-        return fitness;
+        return nextPopulation;
     }
 
+    public List<Double> computeFitness(int enc) {
+            double fitness = 0;
+            fitness = (-Math.pow(enc, 2.00)) + (7 * enc);
+            newPopulationFitness.add(fitness);
+
+        return applyElitism(newPopulationFitness);
+    }
+
+
+    public void Selection(List<Double> SelectionWheel) {
+        Comparator<Double> comparator = (Double a, Double b) -> {
+            return b.compareTo(a);
+        };
+        Stream<Double> imASurviver = SelectionWheel.stream().filter(n -> n.doubleValue() > 0).sequential();
+    }
+
+    public void Crossover() {
+
+    }
+
+    public void Mutation() {
+
+    }
+
+    public void Accepting() {
+
+    }
 
     public Individual InitializeCurrentIndividuals() {
         // initialize the selection function given the current individuals and their fitnesses
