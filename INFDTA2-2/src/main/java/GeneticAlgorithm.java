@@ -11,47 +11,69 @@ import java.util.stream.Stream;
 @Data
 public class GeneticAlgorithm {
 
-    List<Double> newPopulationFitness = new ArrayList<>();
+    List<Individual> initPopulation = new ArrayList<>();
+    List<Individual> newPopulationFitness = new ArrayList<>();
+    List<Double> FittestPopulation = new ArrayList<>();
     double CrossoverRate;
     double MutationRate;
     boolean Elitism;
     int populationSize;
     int iterations;
-    Individual individual = new Individual();
+    Individual individual;
+    int initial;
+
     // repeat the process for the second individual
 
 
-    public void createInitialIndividual(int InitChronosomeA) {
-        individual.setInitChronosomeValue(String.format("%5s", Integer.toBinaryString(InitChronosomeA)).replace(' ', '0'));
-        int enc = Integer.parseInt(individual.getInitChronosomeValue(), 2);
-        computeFitness(enc);
+
+    public void createInitialIndividual(int initial) {
+        String ChronosomeValue = String.format("%5s", Integer.toBinaryString(initial)).replace(' ' , '0');
+        Individual individual = new Individual(ChronosomeValue);
+        computeFitness(individual);
     }
 
-    public List<Double> applyElitism(List<Double> nextPopulation) {
+
+    public List<Individual> applyElitism(List<Individual> nextPopulation) {
         Comparator<Double> comparator = (Double a, Double b) -> {
             return b.compareTo(a);
-        };
-        Collections.sort(nextPopulation, comparator);
-        nextPopulation.forEach(n -> System.out.println(n));
-        Selection(nextPopulation);
 
+        };
+        doubleEncodeBeforeSelection(nextPopulation);
         return nextPopulation;
     }
 
-    public List<Double> computeFitness(int enc) {
+    public List<Individual> computeFitness(Individual individual) {
             double fitness = 0;
+            int enc = Utils.getInstance().encoder(individual.getInitChronosomeValue());
             fitness = (-Math.pow(enc, 2.00)) + (7 * enc);
-            newPopulationFitness.add(fitness);
+            individual.setNewChronosomeFittest(fitness);
+            newPopulationFitness.add(individual);
 
         return applyElitism(newPopulationFitness);
     }
 
+    public List doubleEncodeBeforeSelection(List<Individual> list) {
+        Selection(list);
+        return list;
+    }
 
-    public void Selection(List<Double> SelectionWheel) {
-        Comparator<Double> comparator = (Double a, Double b) -> {
-            return b.compareTo(a);
-        };
-        Stream<Double> imASurviver = SelectionWheel.stream().filter(n -> n.doubleValue() > 0).sequential();
+
+    public void Selection(List<Individual> SelectionWheel) {
+        List<Individual> fittestIndividuals = new ArrayList<>();
+        for(int i=0; i < SelectionWheel.size(); i++) {
+            double val = SelectionWheel.get(i).getNewChronosomeFittest();
+            if(val > 0) {
+                fittestIndividuals.add(SelectionWheel.get(i));
+            }
+        }
+        for(int i=0; i < fittestIndividuals.size(); i++) {
+            System.out.println(fittestIndividuals.get(i) + " The fittest Individuals are in this list");
+        }
+        tournementSelection(fittestIndividuals);
+     }
+
+    public void tournementSelection(List list) {
+
     }
 
     public void Crossover() {
@@ -71,7 +93,7 @@ public class GeneticAlgorithm {
 
         // create the individuals of the next generation
 
-        return Individual.getInstance();
+        return individual;
     }
 
     public Individual selectTwoParents() {
@@ -81,7 +103,7 @@ public class GeneticAlgorithm {
 
         // save the two children in the next population (after mutation)
 
-        return Individual.getInstance();
+        return individual;
     }
 
 

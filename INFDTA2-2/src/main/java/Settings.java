@@ -9,7 +9,9 @@ import java.util.Random;
 
 public class Settings {
 
-    List<String> individualList = new ArrayList<>();
+
+    Individual [] individuals;
+
     public static Settings instance = null;
 
             public static Settings getInstance() {

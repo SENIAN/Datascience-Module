@@ -25,17 +25,18 @@ End
 @Data
 public class Individual {
 
-
     public String InitChronosomeValue;
+    public double newChronosomeFittest;
     private static Individual instance = null;
 
+    public Individual(String initChronosomeValue) {
+        this.InitChronosomeValue = initChronosomeValue;}
 
-    public static Individual getInstance() {
-        if(instance==null) {
-            instance = new Individual();
 
-        }
-        return instance;
+
+    public void savePerson(int i, Individual individual) {
+        Settings.getInstance().individuals[i] = individual;
     }
+
 
 }
