@@ -25,6 +25,7 @@ End
 @Data
 public class Individual {
 
+    public int id;
     public String InitChronosomeValue;
     public double newChronosomeFittest;
     private static Individual instance = null;

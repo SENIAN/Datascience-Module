@@ -44,8 +44,11 @@ public class GeneticAlgorithm {
 
     public List<Individual> computeFitness(Individual individual) {
             double fitness = 0;
+
             int enc = Utils.getInstance().encoder(individual.getInitChronosomeValue());
             fitness = (-Math.pow(enc, 2.00)) + (7 * enc);
+            initial++;
+            individual.setId(initial);
             individual.setNewChronosomeFittest(fitness);
             newPopulationFitness.add(individual);
 
@@ -66,14 +69,17 @@ public class GeneticAlgorithm {
                 fittestIndividuals.add(SelectionWheel.get(i));
             }
         }
+
         for(int i=0; i < fittestIndividuals.size(); i++) {
-            System.out.println(fittestIndividuals.get(i) + " The fittest Individuals are in this list");
+            //System.out.println(fittestIndividuals.get(i) + " The fittest Individuals are in this list");
         }
-        tournementSelection(fittestIndividuals);
+        tournementSelection(Utils.getInstance().sortation(fittestIndividuals));
      }
 
     public void tournementSelection(List list) {
-
+        for(int i=0; i< list.size(); i++) {
+            System.out.println(list.get(i));
+        }
     }
 
     public void Crossover() {

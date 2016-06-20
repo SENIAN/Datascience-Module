@@ -1,6 +1,4 @@
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -16,6 +14,11 @@ public class Utils {
             instance = new Utils();
         }
         return instance;
+    }
+
+    public List<Individual> sortation(List<Individual> fittestIndividuals) {
+        fittestIndividuals.sort((Individual i1, Individual i2) -> Double.compare(i1.getNewChronosomeFittest(), i2.getNewChronosomeFittest()));
+        return fittestIndividuals;
     }
 
 
