@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 public class Utils {
 
     List tempList;
+    GeneticAlgorithm algorithm = new GeneticAlgorithm();
 
     public static Utils instance = null;
     public static Utils getInstance() {
@@ -37,5 +38,11 @@ public class Utils {
                 .forEachOrdered( e -> result.put(e.getKey(), e.getValue()) );
 
         return result;
+    }
+
+
+    public List doubleEncodeBeforeSelection(List<Individual> list) {
+        algorithm.Selection(list);
+        return list;
     }
 }

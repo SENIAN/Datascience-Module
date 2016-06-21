@@ -14,6 +14,7 @@ public class GeneticAlgorithm {
     List<Individual> initPopulation = new ArrayList<>();
     List<Individual> newPopulationFitness = new ArrayList<>();
     List<Double> FittestPopulation = new ArrayList<>();
+    List<Individual> rankSelectionPop = new ArrayList<>();
     double CrossoverRate;
     double MutationRate;
     boolean Elitism;
@@ -26,62 +27,76 @@ public class GeneticAlgorithm {
 
 
 
+    //region createIndividual and computefitness / elitism.
+    // Creating some individuals binary Strings.
     public void createInitialIndividual(int initial) {
-        String ChronosomeValue = String.format("%5s", Integer.toBinaryString(initial)).replace(' ' , '0');
+        String ChronosomeValue = String.format("%5s", Integer.toBinaryString(initial)).replace(' ', '0');
         Individual individual = new Individual(ChronosomeValue);
         computeFitness(individual);
     }
 
+    // Compute te fitness
+    public List<Individual> computeFitness(Individual individual) {
+        double fitness = 0;
+        initial = 0;
+        int enc = Utils.getInstance().encoder(individual.getInitChronosomeValue());
+        fitness = (-Math.pow(enc, 2.00)) + (7 * enc);
+        initial++;
+        individual.setId(initial);
+        individual.setNewChronosomeFittest(fitness);
+        newPopulationFitness.add(individual);
+        return applyElitism(newPopulationFitness);
+    }
 
+    //Apply the Elitism based on the fitness
     public List<Individual> applyElitism(List<Individual> nextPopulation) {
         Comparator<Double> comparator = (Double a, Double b) -> {
             return b.compareTo(a);
 
         };
-        doubleEncodeBeforeSelection(nextPopulation);
+        Utils.getInstance().doubleEncodeBeforeSelection(nextPopulation);
         return nextPopulation;
     }
 
-    public List<Individual> computeFitness(Individual individual) {
-            double fitness = 0;
+    // endregion creations
 
+    // region Selection
+    public List<Individual> computeAfterFitness(List<Individual> individuals) {
+            initial = 0;
+            double fitness = 0;
+        for (int i = 0; i < individuals.size(); i++) {
             int enc = Utils.getInstance().encoder(individual.getInitChronosomeValue());
             fitness = (-Math.pow(enc, 2.00)) + (7 * enc);
+            individuals.get(i).setId(initial);
+            individuals.get(i).setNewChronosomeFittest(fitness);
+            rankSelectionPop.add(individual);
             initial++;
-            individual.setId(initial);
-            individual.setNewChronosomeFittest(fitness);
-            newPopulationFitness.add(individual);
-
-        return applyElitism(newPopulationFitness);
+        }
+        return rankSelectionPop;
     }
 
-    public List doubleEncodeBeforeSelection(List<Individual> list) {
-        Selection(list);
-        return list;
-    }
+    public List rankSelectionAfterFitness(List<Individual> list, int selectionThreshold) {
+        List<Individual> tournementCandidates = new ArrayList<>();
+        for (Individual s : newPopulationFitness) {
+            list.addAll(computeAfterFitness(s));
+        }
 
-
-    public void Selection(List<Individual> SelectionWheel) {
-        List<Individual> fittestIndividuals = new ArrayList<>();
-        for(int i=0; i < SelectionWheel.size(); i++) {
-            double val = SelectionWheel.get(i).getNewChronosomeFittest();
-            if(val > 0) {
-                fittestIndividuals.add(SelectionWheel.get(i));
+        for(int i=0; i < list.size(); i++) {
+            if(list.get(i).getNewChronosomeFittest() > selectionThreshold) {
+                tournementCandidates.addAll(list.get(i));
             }
         }
+        return tournementSelection(Utils.getInstance().sortation(tournementCandidates));
+    }
 
-        for(int i=0; i < fittestIndividuals.size(); i++) {
-            //System.out.println(fittestIndividuals.get(i) + " The fittest Individuals are in this list");
-        }
-        tournementSelection(Utils.getInstance().sortation(fittestIndividuals));
-     }
 
     public void tournementSelection(List list) {
-        for(int i=0; i< list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
         }
     }
 
+    //endregion Selection
     public void Crossover() {
 
     }
