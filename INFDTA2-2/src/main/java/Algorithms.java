@@ -9,11 +9,11 @@ import java.util.*;
 @Data
 public class Algorithms {
 
-    private double mutationRate;
-    private double crossoverRate;
-    private boolean useElitism;
-    private int numOfIterations;
-    private int popSize;
+    public double mutationRate;
+    public double crossoverRate;
+    public boolean useElitism;
+    public int numOfIterations;
+    public int popSize;
 
     public Algorithms(double mutationRate, double crossoverRate, boolean useElitism, int numOfIterations, int popSize) {
         this.mutationRate = mutationRate;
@@ -32,13 +32,12 @@ public class Algorithms {
 
     public List<Individual<Integer>> createFirstPopulationSetting() {
         List<Individual<Integer>> initialPopulation = new ArrayList<>();
-        int maximumIntegerValue = 32;
+        int maximumIntegerValue = 31;
         Random r = new Random();
         for (int i = 0; i < popSize; i++) {
             int s = r.nextInt(maximumIntegerValue);
             initialPopulation.add(new Individual<>(s));
         }
-        rouletteSelection(initialPopulation);
         return initialPopulation;
     }
 
@@ -48,13 +47,22 @@ public class Algorithms {
         currPopulation.forEach(n -> {
             String ChronosomeValue = String.format("%5s", Integer.toBinaryString(n.getIndividual())).replace(' ', '0');
             allChronosomes.add(new Individual<String>(ChronosomeValue));
-
         });
-        getFittestChronosome(allChronosomes);
+        getAllChronosomes(allChronosomes);
         return allChronosomes;
     }
 
-    private List<Individual<Double>> rouletteSelection(List<Individual<Integer>> population) {
+    public List<Individual<String>> populateToMakeChronosomeWithElitism(List<Individual<Integer>> currPopulationElitism) {
+        List<Individual<String>>  allChronosomesElitism = new ArrayList<>();
+        currPopulationElitism.forEach(n -> {
+            String ChronosomeValue = String.format("%5s", Integer.toBinaryString(n.getIndividual())).replace(' ', '0');
+            allChronosomesElitism.add(new Individual<String>(ChronosomeValue));
+        });
+        getFittestChronosome(allChronosomesElitism);
+        return allChronosomesElitism;
+    }
+
+    public List<Individual<Double>> rouletteSelection(List<Individual<Integer>> population) {
         double fitness = 0;
         List<Individual<Double>> individual = new ArrayList<>();
         for(Individual<Integer> peep : population) {
@@ -73,9 +81,9 @@ public class Algorithms {
                fitness =  computeFitness((double) decimal.intValue());
                if(fitness > 0) {
                    fittestChronosome.put(chronosome, Double.toString(fitness));
-                   System.out.println(chronosome + "Individual belongs to the fittest added for next rounds");
+            //       System.out.println(chronosome + "Individual belongs to the fittest added for next rounds");
                } else {
-                   System.out.println(chronosome + " Individual isn't the fitt enough they fall out");
+            //       System.out.println(chronosome + " Individual isn't the fitt enough they fall out");
                }
            }
         getAllChronosomes(fittestChronosome);
@@ -93,13 +101,36 @@ public class Algorithms {
 
     }
 
+    public double getAverageFitness(List<Individual<Integer>> population) {
+        double returnResult=0;
+        for(Individual<Integer> value : population) {
+            returnResult = (float) computeFitness(value.getIndividual());
+        }
+        returnResult = returnResult / population.size();
+        System.out.println(returnResult);
+        return returnResult;
+    }
+    public double getAverageBasedOnBinary(List<Individual<String>> population) {
+        double returnResult=0;
+        for(Individual<String> value : population) {
+            Long decimal =  Long.parseLong(value.getIndividual(), 2);
+            returnResult =  computeFitness((double) decimal.intValue());
+        }
+        returnResult = returnResult / population.size();
+        System.out.println(returnResult);
+        return returnResult;
+    }
+
+
     public void getAllChronosomes(List chronosomes) {
-            chronosomes.forEach(n -> System.out.println(n));
+      //      chronosomes.forEach(n -> System.out.println(n));
     }
 
     public void getAllChronosomes(Map map) {
         map.forEach((key, value) -> {  System.out.println("Chronosome:  " + key + "     Fitness:    " + value); });
     }
+
+
 
 
 
