@@ -1,8 +1,6 @@
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Fatima on 23-06-16.
@@ -27,7 +25,8 @@ public class Algorithms {
 
     public double computeFitness(double calcVal) {
         double c = (-Math.pow(calcVal, 2)) + (7 * calcVal);
-        return  c;
+        // if fitness smaller than 0 then return 0 else return actual value
+        return (c < 0) ? 0 : c;
 
     }
 
@@ -51,7 +50,7 @@ public class Algorithms {
             allChronosomes.add(new Individual<String>(ChronosomeValue));
 
         });
-        getAllChronosomes(allChronosomes);
+        getFittestChronosome(allChronosomes);
         return allChronosomes;
     }
 
@@ -62,13 +61,44 @@ public class Algorithms {
             fitness = computeFitness(peep.getIndividual());
             individual.add(new Individual<Double>(fitness));
         }
-        getAllChronosomes(individual);
         return individual;
+
+    }
+
+    public Map<Individual<String>, String> getFittestChronosome(List<Individual<String>> chronosomes) {
+           double fitness = 0;
+           Map<Individual<String> , String> fittestChronosome =  new HashMap<>();
+           for(Individual<String> chronosome : chronosomes) {
+               Long decimal =  Long.parseLong(chronosome.getIndividual(), 2);
+               fitness =  computeFitness((double) decimal.intValue());
+               if(fitness > 0) {
+                   fittestChronosome.put(chronosome, Double.toString(fitness));
+                   System.out.println(chronosome + "Individual belongs to the fittest added for next rounds");
+               } else {
+                   System.out.println(chronosome + " Individual isn't the fitt enough they fall out");
+               }
+           }
+        getAllChronosomes(fittestChronosome);
+        return fittestChronosome;
+
+    }
+
+    public void getTwoParents(List<Individual<String>> chronosomes, List<Individual<String>> chronosomesSecond) {
+
+        Map<Individual<String>, String> firstParent = getFittestChronosome(chronosomes);
+        Map<Individual<String>, String> secondParrent = getFittestChronosome(chronosomesSecond);
+        for(int i=0; i < chronosomes.size(); i++) {
+        //    tuple.getTuple().put(firstParent, secondParrent);
+        }
 
     }
 
     public void getAllChronosomes(List chronosomes) {
             chronosomes.forEach(n -> System.out.println(n));
+    }
+
+    public void getAllChronosomes(Map map) {
+        map.forEach((key, value) -> {  System.out.println("Chronosome:  " + key + "     Fitness:    " + value); });
     }
 
 
