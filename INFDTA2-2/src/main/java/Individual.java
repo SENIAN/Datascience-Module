@@ -1,43 +1,22 @@
-import com.sun.xml.internal.bind.v2.model.core.ID;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import sun.misc.BASE64Encoder;
 
 /**
- * Created by Mohammed on 6/1/2016.
- */
-
-/*
-
-INPUTS
-The user-specified parameters of the program should be:
- Crossover rate (value between 0 and 1 indicating the probability of actually carrying out the crossover between
-parents)
- Mutation rate (value between 0 and 1 indicating the probability of carrying out a mutation)
- Elitism (Boolean indicating if elitism is used or not in the algorithm)
- Population size (integer indicating the amount of individuals in the population)
- Number of iterations (integer indicating after how many iterations/generations the algorithm will stop
-
-
-Beginning > Initial population > Evaluation > Selection  > Crossover > Mutation > Evolved Population > Convergence Check >
-End
+ * Created by Fatima on 23-06-16.
  */
 
 @Data
-public class Individual {
-
-    public int id;
-    public String InitChronosomeValue;
-    public double newChronosomeFittest;
-    private static Individual instance = null;
-
-    public Individual(String initChronosomeValue) {
-        this.InitChronosomeValue = initChronosomeValue;}
+@AllArgsConstructor
+public class Individual<T> {
+    private T individual;
 
 
 
-    public void savePerson(int i, Individual individual) {
-        Settings.getInstance().individuals[i] = individual;
+    public void setIndividual(T individual) {
+        this.individual = individual;
     }
 
-
+    public T getIndividual() {
+        return individual;
+    }
 }
