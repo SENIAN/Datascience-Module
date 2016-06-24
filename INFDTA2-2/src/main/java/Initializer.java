@@ -10,7 +10,7 @@ public class Initializer {
 
     public static void main(String[] args) {
 
-        Algorithms algorithms = new Algorithms(0.5, 0.7, true, 100, 100);
+        Algorithms algorithms = new Algorithms(0.34, 0.91, true, 10, 1000);
         int startingPoint = -1;
         for (int i = 0; i <= algorithms.numOfIterations; i++) {
             if (algorithms.useElitism) {
