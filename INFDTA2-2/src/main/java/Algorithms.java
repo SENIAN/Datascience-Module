@@ -44,7 +44,7 @@ public class Algorithms {
 
     public List<Individual<String>> populateToMakeChronosome() {
         List<Individual<Integer>> currPopulation = createFirstPopulationSetting();
-        List<Individual<String>>  allChronosomes = new ArrayList<>();
+        List<Individual<String>> allChronosomes = new ArrayList<>();
         currPopulation.forEach(n -> {
             String ChronosomeValue = String.format("%5s", Integer.toBinaryString(n.getIndividual())).replace(' ', '0');
             allChronosomes.add(new Individual<String>(ChronosomeValue));
@@ -54,7 +54,7 @@ public class Algorithms {
     }
 
     public List<Individual<String>> populateToMakeChronosomeWithElitism(List<Individual<Integer>> currPopulationElitism) {
-        List<Individual<String>>  allChronosomesElitism = new ArrayList<>();
+        List<Individual<String>> allChronosomesElitism = new ArrayList<>();
         currPopulationElitism.forEach(n -> {
             String ChronosomeValue = String.format("%5s", Integer.toBinaryString(n.getIndividual())).replace(' ', '0');
             allChronosomesElitism.add(new Individual<String>(ChronosomeValue));
@@ -64,44 +64,49 @@ public class Algorithms {
     }
 
     public Map<Individual<String>, String> getFittestChronosomes(List<Individual<String>> chronosomes) {
-           double fitness = 0;
-           Map<Individual<String> , String> fittestChronosomes =  new HashMap<>();
-           for(Individual<String> chronosome : chronosomes) {
-               Long decimal =  Long.parseLong(chronosome.getIndividual(), 2);
-               fitness =  computeFitness((double) decimal.intValue());
-               if(fitness > 0) {
-                   fittestChronosomes.put(chronosome, Double.toString(fitness));
-            //       System.out.println(chronosome + "Individual belongs to the fittest added for next rounds");
-               } else {
-            //       System.out.println(chronosome + " Individual isn't the fitt enough they fall out");
-               }
-           }
-
-        System.out.println("<---------------------------Best Individual------------------------->");
+        double fitness = 0;
+        Map<Individual<String>, String> fittestChronosomes = new HashMap<>();
+        for (Individual<String> chronosome : chronosomes) {
+            Long decimal = Long.parseLong(chronosome.getIndividual(), 2);
+            fitness = computeFitness((double) decimal.intValue());
+            if (fitness > 0) {
+                fittestChronosomes.put(chronosome, Double.toString(fitness));
+                //       System.out.println(chronosome + "Individual belongs to the fittest added for next rounds");
+            } else {
+                //       System.out.println(chronosome + " Individual isn't the fitt enough they fall out");
+            }
+        }
         Map.Entry<Individual<Integer>, Integer> BestIndividual = getFittestFromFittestList(fittestChronosomes);
-            System.out.println(BestIndividual.getKey());
-            System.out.println(BestIndividual.getValue());
+        System.out.println("<---------------------------Best Individual------------------------->");
+        System.out.println(BestIndividual.getKey() + "  Fitness:" + BestIndividual.getValue());
         return fittestChronosomes;
     }
 
     public Map.Entry<Individual<Integer>, Integer> getFittestFromFittestList(Map<Individual<String>, String> fittestOnes) {
-        int fitness =0;
-        Map<Individual<Integer>, Integer> fittestOne =  new HashMap<>();
 
-        for(Map.Entry<Individual<String>, String> entry : fittestOnes.entrySet()) {
-            Long decimal =  Long.parseLong(entry.getKey().getIndividual(), 2);
+        int fitness = 0;
+        Map<Individual<Integer>, Integer> fittestOne = new HashMap<>();
+        List<Individual<Integer>> newParent = new ArrayList<>();
+
+        for (Map.Entry<Individual<String>, String> entry : fittestOnes.entrySet()) {
+            Long decimal = Long.parseLong(entry.getKey().getIndividual(), 2);
             fitness = (int) computeFitness(decimal.intValue());
             fittestOne.put(new Individual<>(decimal.intValue()), fitness);
         }
-         return Collections.max(fittestOne.entrySet(),
-                (p1,p2)-> p1.getKey().getIndividual().compareTo(p2.getValue()));
 
-    }
+        for (Map.Entry<Individual<Integer>, Integer> entry : fittestOne.entrySet()) {
+            newParent.add(entry.getKey());
+        }
+        getTwoParents(newParent);
+
+        return Collections.max(fittestOne.entrySet(),
+                (p1, p2) -> p1.getKey().getIndividual().compareTo(p2.getValue()));
+        }
 
     public Individual<Integer> russianRoulette(List<Individual<Integer>> population) {
-        int fitness=0;
-        int newFitness=0;
-        for(Individual<Integer> first : population) {
+        int fitness = 0;
+        int newFitness = 0;
+        for (Individual<Integer> first : population) {
             double thisValue = computeFitness(first.getIndividual());
             fitness = (int) thisValue;
         }
@@ -114,37 +119,37 @@ public class Algorithms {
                 return sec;
             }
         }
-        return new Individual<>();
+        return null;
     }
 
 
-    public void getTwoParents(List<Individual<Integer>> chronosomes, List<Individual<Integer>> chronosomesSecond) {
+    public void getTwoParents(List<Individual<Integer>> chronosomes) {
         Individual<Integer> firstParent = russianRoulette(chronosomes);
-        Individual<Integer> secondParrent = russianRoulette(chronosomesSecond);
+        Individual<Integer> secondParrent = russianRoulette(chronosomes);
         crossoverAndMutation(firstParent, secondParrent);
 
     }
 
     public Individual<Integer> mutation(Individual<Integer> mutate) {
-            String ChronosomeValue = String.format("%5s", Integer.toBinaryString(mutate.getIndividual())).replace(' ', '0');
-            int mutationFactor = new Random().nextInt(ChronosomeValue.length());
-            char mutationReference = ChronosomeValue.charAt(mutationFactor);
-            char mutationArray[];
-        if(mutationReference == '0') {
+        String ChronosomeValue = String.format("%5s", Integer.toBinaryString(mutate.getIndividual())).replace(' ', '0');
+        int mutationFactor = new Random().nextInt(ChronosomeValue.length());
+        char mutationReference = ChronosomeValue.charAt(mutationFactor);
+        char mutationArray[];
+        if (mutationReference == '0') {
             mutationArray = ChronosomeValue.toCharArray();
             mutationArray[mutationFactor] = '1';
-            return new Individual<Integer>(Integer.parseInt(String.valueOf(mutationArray),2));
+            return new Individual<Integer>(Integer.parseInt(String.valueOf(mutationArray), 2));
         }
-            mutationArray = ChronosomeValue.toCharArray();
-            mutationArray[mutationFactor] = '0';
-            return new Individual<Integer>(Integer.parseInt(String.valueOf(mutationArray),2));
+        mutationArray = ChronosomeValue.toCharArray();
+        mutationArray[mutationFactor] = '0';
+        return new Individual<Integer>(Integer.parseInt(String.valueOf(mutationArray), 2));
 
     }
 
 
     public double getAverageFitness(List<Individual<Integer>> population) {
-        double returnResult=0;
-        for(Individual<Integer> value : population) {
+        double returnResult = 0;
+        for (Individual<Integer> value : population) {
             returnResult = (float) computeFitness(value.getIndividual());
         }
         returnResult = returnResult / population.size();
@@ -153,42 +158,52 @@ public class Algorithms {
     }
 
     public Individual<Integer> createNewChild(Individual<Integer> parentOne, Individual<Integer> parentTwo) {
-        return new Individual<Integer>();
+        //splitting the dna
 
-    }
+        System.out.println("<---------------------------Spliting DNA------------------------->");
+        String MatchDna1 = String.format("%5s", Integer.toBinaryString(parentOne.getIndividual())).replace(' ', '0');
+        String MatchDna2 = String.format("%5s", Integer.toBinaryString(parentTwo.getIndividual())).replace(' ', '0');
+
+        System.out.println("<---------------------------Parent DNA" + "    " + MatchDna1 + MatchDna2  +  "------------------------->");
+
+        int aRandomValue = new Random().nextInt(MatchDna1.length());
+        String Splitted1 =  MatchDna1.substring(0, aRandomValue);
+        String Splitted2 =  MatchDna2.substring(aRandomValue, MatchDna2.length());
+        System.out.println("<---------------------------New DNA    " + Splitted1+Splitted2 +"------->");
+        return new Individual<>(Integer.parseInt(Splitted1+Splitted2, 2));
+   }
 
 
     public List<Individual<Integer>> crossoverAndMutation(Individual<Integer> parentOne, Individual<Integer> parentTwo) {
         Random r = new Random();
         Individual<Integer> justAChild;
         List<Individual<Integer>> childPopulation = new ArrayList<>();
-        if(r.nextDouble() < crossoverRate) {
-            justAChild = createNewChild(parentOne,parentTwo);
+        if (r.nextDouble() < crossoverRate) {
+            justAChild = createNewChild(parentOne, parentTwo);
             childPopulation.add(justAChild);
         }
         childPopulation.add(parentOne);
-        if(r.nextDouble() < mutationRate) {
-            justAChild = createNewChild(parentOne,parentTwo);
+        if (r.nextDouble() < mutationRate) {
+            justAChild = createNewChild(parentOne, parentTwo);
             childPopulation.add(mutation(justAChild));
         }
-        childPopulation.add(parentOne );
+        childPopulation.add(parentOne);
         initialPopulation = childPopulation;
-
+        initialPopulation.forEach(n-> System.out.println(" Child Fitness Value:   " + n +  "    From ParentOne Fitness:   " + parentOne.getIndividual() + " ParentTwo Fitness:  " + parentTwo.getIndividual()));
+        return null;
     }
 
 
-
     public void getAllChronosomes(List chronosomes) {
-      //      chronosomes.forEach(n -> System.out.println(n));
+        //      chronosomes.forEach(n -> System.out.println(n));
     }
 
     public void getAllChronosomes(Map map) {
         getFittestFromFittestList(map);
-        map.forEach((key, value) -> {  System.out.println("Chronosome:  " + key + "     Fitness:    " + value); });
+        map.forEach((key, value) -> {
+            System.out.println("Chronosome:  " + key + "     Fitness:    " + value);
+        });
     }
-
-
-
 
 
 }

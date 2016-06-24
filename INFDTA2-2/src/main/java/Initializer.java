@@ -10,7 +10,7 @@ public class Initializer {
 
     public static void main(String[] args) {
 
-        Algorithms algorithms = new Algorithms(0, 0, true, 10, 100);
+        Algorithms algorithms = new Algorithms(0.5, 0.7, true, 100, 100);
         int startingPoint = -1;
         for (int i = 0; i <= algorithms.numOfIterations; i++) {
             if (algorithms.useElitism) {
@@ -24,6 +24,8 @@ public class Initializer {
                 algorithms.getAverageFitness(initialPoint);
                 System.out.println("<----------------------PopulateChronosomes With Elitism------------------->");
                 List<Individual<String>> pointWithElitism = algorithms.populateToMakeChronosomeWithElitism(initialPoint);
+
+
                 startingPoint = 1;
             } else {
                 System.out.println("<----------------------Creating First Population------------------->");
