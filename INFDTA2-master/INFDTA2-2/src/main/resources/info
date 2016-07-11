@@ -1,0 +1,14 @@
+[Start] Create an initial population of 𝑛 individuals
+[Fitness] Evaluate the fitness 𝑓(𝑥) of each individual 𝑥 in the population
+[New population] Create a new population by repeating the following steps (until the
+new population is complete)
+[Selection] Select two parent from the population according to their fitness (the better fitness, the
+bigger chance to be selected for reproduction)
+[Crossover] With a crossover probability, cross over the parents to form new offspring (children); if
+no crossover was performed, offspring is an exact copy of parents
+[Mutation] With a mutation probability, mutate information encoded by new offspring
+[Accepting] Place new offspring in the new population
+[Test] Termination condition satisfied?
+Yes  Return the best solution in the new population
+No  Go to step [Fitness] and repeat the loop using the new population for a further run of the
+algorithm
